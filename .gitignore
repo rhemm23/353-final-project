@@ -1,1 +1,4 @@
-Project/obj/
+*.*
+!*.c
+!*.h
+!.gitignore

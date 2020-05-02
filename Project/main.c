@@ -22,7 +22,6 @@
 
 #include "main.h"
 
-
 //*****************************************************************************
 //*****************************************************************************
 void DisableInterrupts(void)
@@ -41,6 +40,13 @@ void EnableInterrupts(void)
   }
 }
 
+typedef enum {
+  START,
+  RUNNING,
+  PAUSED,
+  EXIT
+} GAME_STATE_t;
+
 void initialize_board(void) {
   DisableInterrupts();
   initialize_hardware();
@@ -51,29 +57,48 @@ void initialize_board(void) {
 //*****************************************************************************
 //*****************************************************************************
 int main(void) {
-  int exit = 0;
-  int paused = 0;
+  char c;
+  uint8_t touch_event;
+  GAME_STATE_t state, return_state;
 	
-  init_serial_debug(true, true);
   initialize_board();
+  state = START;
 	
   printf("Running...\n");
   
 	// Display High Score on Power Up
 
-  while(!exit) {
-    if(!paused) {
-      char c = uart_rx_poll(UART0_BASE, false);
-      if(c == ' ') {
-        printf("Paused. Hit space bar to resume...\n");
-        paused = 1;
-      }
-    } else {
-      char c = uart_rx_poll(UART0_BASE, true);
-      if(c == ' ') {
-        printf("Running...\n");
-        paused = 0;
-      }
+  while(state != EXIT) {
+    touch_event = ft6x06_read_td_status();
+    switch(state) {
+      case RUNNING:
+        c = uart_rx_poll(UART0_BASE, false);
+        if(c == ' ') {
+          printf("Paused. Hit space bar to resume...\n");
+          return_state = RUNNING;
+          state = PAUSED;
+        }
+        break;
+      
+      case PAUSED:
+        c = uart_rx_poll(UART0_BASE, true);
+        if(c == ' ') {
+          printf("Running...\n");
+          state = return_state;
+        }
+        break;
+      
+      case START:
+        c = uart_rx_poll(UART0_BASE, false);
+        if(c == ' ') {
+          printf("Paused. Hit space bar to resume...\n");
+          return_state = START;
+          state = PAUSED;
+        }
+        break;
+        
+      case EXIT:
+        break;
     }
   }
 }

@@ -23,9 +23,11 @@
 #include "main.h"
 
 void initialize_hardware() {
+  ft6x06_init();
   eeprom_init();
   lcd_config_gpio();
   lcd_config_screen();
+  init_serial_debug(true, true);
   lcd_clear_screen(LCD_COLOR_BLACK);
   ps2_initialize();
 }
