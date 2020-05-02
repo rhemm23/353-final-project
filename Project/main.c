@@ -28,7 +28,7 @@
 void DisableInterrupts(void)
 {
   __asm {
-         CPSID  I
+    CPSID  I
   }
 }
 
@@ -42,34 +42,34 @@ void EnableInterrupts(void)
 }
 
 void initialize_board(void) {
-	DisableInterrupts();
-	initialize_hardware();
-	initialize_interrupts();
-	EnableInterrupts();
+  DisableInterrupts();
+  initialize_hardware();
+  initialize_interrupts();
+  EnableInterrupts();
 }
 
 //*****************************************************************************
 //*****************************************************************************
 int main(void) {
-	int exit = 0;
-	int paused = 0;
+  int exit = 0;
+  int paused = 0;
 	
-	initialize_board();
-	printf("Running...\n");
+  initialize_board();
+  printf("Running...\n");
 	
-	while(!exit) {
-		if(!paused) {
-			char c = uart_rx_poll(UART0_BASE, false);
-			if(c == ' ') {
-				printf("Paused. Hit space bar to resume...\n");
-				paused = 1;
-			}
-		} else {
-			char c = uart_rx_poll(UART0_BASE, true);
-			if(c == ' ') {
-				printf("Running...\n");
-				paused = 0;
-			}
-		}
-	}
+  while(!exit) {
+    if(!paused) {
+      char c = uart_rx_poll(UART0_BASE, false);
+      if(c == ' ') {
+        printf("Paused. Hit space bar to resume...\n");
+        paused = 1;
+      }
+    } else {
+      char c = uart_rx_poll(UART0_BASE, true);
+      if(c == ' ') {
+        printf("Running...\n");
+        paused = 0;
+      }
+    }
+  }
 }

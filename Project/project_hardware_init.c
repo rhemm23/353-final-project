@@ -23,5 +23,5 @@
 #include "main.h"
 
 void initialize_hardware() {
-	init_serial_debug(true, true);
+  init_serial_debug(true, true);
 }

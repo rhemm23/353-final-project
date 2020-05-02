@@ -24,5 +24,5 @@
 #include "project_interrupts.h"
 
 void initialize_interrupts() {
-	
+
 }
