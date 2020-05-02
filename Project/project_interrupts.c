@@ -25,9 +25,40 @@
 
 static volatile uint16_t PS2_X_DATA;
 static volatile uint16_t PS2_Y_DATA;
+static volatile bool LED_INCREMENT;
 
 void initialize_interrupts() {
-  gp_timer_config_32(TIMER4_BASE, TIMER_TAMR_TAMR_PERIOD, 50000, false, true);
+  gp_timer_config_32(TIMER1_BASE, TIMER_TAMR_TAMR_PERIOD, 50000000, false, true);
+  gp_timer_config_32(TIMER2_BASE, TIMER_TAMR_TAMR_PERIOD, 1000000, false, true);
+  gp_timer_config_32(TIMER3_BASE, TIMER_TAMR_TAMR_PERIOD, 500000, false, true);
+  gp_timer_config_32(TIMER4_BASE, TIMER_TAMR_TAMR_PERIOD, 500000, false, true);
+}
+
+void TIMER1A_Handler(void)
+{
+  int i = 10000;
+  GPIOF->DATA |= RED_M;
+  while(i-- > 0);
+  GPIOF->DATA &= ~RED_M;
+}
+
+void TIMER2A_Handler(void)
+{
+
+			
+	// Clear the interrupt
+	TIMER2->ICR |= TIMER_ICR_TATOCINT;
+}
+
+//*****************************************************************************
+// TIMER3 ISR is used to determine when to move the spaceship
+//*****************************************************************************
+void TIMER3A_Handler(void)
+{
+
+	
+	// Clear the interrupt
+	TIMER3->ICR |= TIMER_ICR_TATOCINT;  
 }
 
 //*****************************************************************************

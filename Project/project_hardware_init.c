@@ -23,6 +23,11 @@
 #include "main.h"
 
 void initialize_hardware() {
+  // Setup alive LED
+  gpio_enable_port(GPIOF_BASE);
+  gpio_config_digital_enable(GPIOF_BASE, RED_M);
+  gpio_config_enable_output(GPIOF_BASE, RED_M);
+  
   ft6x06_init();
   eeprom_init();
   lcd_config_gpio();
