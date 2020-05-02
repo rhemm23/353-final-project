@@ -24,6 +24,8 @@
 
 #include "main.h"
 
+extern volatile bool BLINK_ALIVE_LED;
+
 void initialize_interrupts(void);
 
 #endif

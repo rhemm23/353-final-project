@@ -57,6 +57,7 @@ void initialize_board(void) {
 //*****************************************************************************
 //*****************************************************************************
 int main(void) {
+  int i;
   char c;
 	char* str = "Ryan";
   uint8_t touch_event;
@@ -70,6 +71,17 @@ int main(void) {
 	// Display High Score on Power Up
 	draw_string(str, 0x0040);
   while(state != EXIT) {
+    // Check for flag
+    if(BLINK_ALIVE_LED) {
+      // Blink red LED
+      GPIOF->DATA |= RED_M;
+      i = 10000;
+      while(i-- > 0);
+      GPIOF->DATA &= ~RED_M;
+      
+      // Clear flag
+      BLINK_ALIVE_LED = false;
+    }
     touch_event = ft6x06_read_td_status();
     switch(state) {
       case RUNNING:

@@ -25,9 +25,11 @@
 
 static volatile uint16_t PS2_X_DATA;
 static volatile uint16_t PS2_Y_DATA;
-static volatile bool LED_INCREMENT;
+
+volatile bool BLINK_ALIVE_LED = true;
 
 void initialize_interrupts() {
+  // Set timer to blink red LED every 1 sec
   gp_timer_config_32(TIMER1_BASE, TIMER_TAMR_TAMR_PERIOD, 50000000, false, true);
   gp_timer_config_32(TIMER2_BASE, TIMER_TAMR_TAMR_PERIOD, 1000000, false, true);
   gp_timer_config_32(TIMER3_BASE, TIMER_TAMR_TAMR_PERIOD, 500000, false, true);
@@ -36,10 +38,11 @@ void initialize_interrupts() {
 
 void TIMER1A_Handler(void)
 {
-  int i = 10000;
-  GPIOF->DATA |= RED_M;
-  while(i-- > 0);
-  GPIOF->DATA &= ~RED_M;
+  // Flag for alive LED to blink
+  BLINK_ALIVE_LED = true;
+  
+  // Clear the interrupt
+  TIMER1->ICR |= TIMER_ICR_TATOCINT;
 }
 
 void TIMER2A_Handler(void)
