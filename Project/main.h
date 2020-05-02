@@ -38,4 +38,6 @@
 
 #include "project_interrupts.h"
 #include "project_hardware_init.h"
+#include "kessel_run.h"
+#include "final_images.h"
 #endif
