@@ -55,7 +55,14 @@ int main(void) {
   int paused = 0;
 	
   initialize_board();
+	eeprom_init();
+	
   printf("Running...\n");
+	printf("Hit Spacebar to Pause\n");
+	
+	// Display High Score on Power Up
+	
+	
 	
   while(!exit) {
     if(!paused) {
@@ -71,5 +78,7 @@ int main(void) {
         paused = 0;
       }
     }
+		
+		
   }
 }
