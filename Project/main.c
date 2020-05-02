@@ -89,11 +89,17 @@ int main(void) {
         break;
       
       case START:
+        // Look for pause
         c = uart_rx_poll(UART0_BASE, false);
         if(c == ' ') {
           printf("Paused. Hit space bar to resume...\n");
           return_state = START;
           state = PAUSED;
+        }
+        
+        // If screen is touched, start the game
+        if(touch_event > 0) {
+          state = RUNNING;
         }
         break;
         

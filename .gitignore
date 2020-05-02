@@ -2,3 +2,5 @@
 !*.c
 !*.h
 !.gitignore
+!peripherals/c/ws2812b.s
+!Project/RTE/Device/TM4C123GH6PM/startup_TM4C123.s
