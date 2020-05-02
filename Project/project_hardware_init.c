@@ -23,5 +23,9 @@
 #include "main.h"
 
 void initialize_hardware() {
-  init_serial_debug(true, true);
+  eeprom_init();
+  lcd_config_gpio();
+  lcd_config_screen();
+  lcd_clear_screen(LCD_COLOR_BLACK);
+  ps2_initialize();
 }

@@ -38,6 +38,3 @@
 #include "project_interrupts.h"
 #include "project_hardware_init.h"
 #endif
-
-	
-	

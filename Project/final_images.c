@@ -733,77 +733,77 @@ const uint8_t letters[] =
 
 // Character descriptors for Microsoft Sans Serif 8pt
 // { [Char width in bits], [Offset into microsoftSansSerif_8ptCharBitmaps in bytes] }
-const FONT_CHAR_INFO microsoftSansSerif_8ptDescriptors[] = 
-{
-	{7, 0}, 		// A 
-	{5, 11}, 		// B 
-	{6, 22}, 		// C 
-	{6, 33}, 		// D 
-	{5, 44}, 		// E 
-	{5, 55}, 		// F 
-	{6, 66}, 		// G 
-	{6, 77}, 		// H 
-	{1, 88}, 		// I 
-	{4, 99}, 		// J 
-	{6, 110}, 		// K 
-	{5, 121}, 		// L 
-	{7, 132}, 		// M 
-	{6, 143}, 		// N 
-	{6, 154}, 		// O 
-	{6, 165}, 		// P 
-	{6, 176}, 		// Q 
-	{6, 187}, 		// R 
-	{5, 198}, 		// S 
-	{5, 209}, 		// T 
-	{6, 220}, 		// U 
-	{7, 231}, 		// V 
-	{11, 242}, 		// W 
-	{7, 264}, 		// X 
-	{7, 275}, 		// Y 
-	{7, 286}, 		// Z 
-	{0, 0}, 		// [ 
-	{0, 0}, 		// \ 
-	{0, 0}, 		// ] 
-	{0, 0}, 		// ^ 
-	{0, 0}, 		// _ 
-	{0, 0}, 		// ` 
-	{5, 297}, 		// a 
-	{5, 308}, 		// b 
-	{5, 319}, 		// c 
-	{5, 330}, 		// d 
-	{5, 341}, 		// e 
-	{2, 352}, 		// f 
-	{5, 363}, 		// g 
-	{5, 374}, 		// h 
-	{1, 385}, 		// i 
-	{1, 396}, 		// j 
-	{5, 407}, 		// k 
-	{1, 418}, 		// l 
-	{7, 429}, 		// m 
-	{5, 440}, 		// n 
-	{5, 451}, 		// o 
-	{5, 462}, 		// p 
-	{5, 473}, 		// q 
-	{2, 484}, 		// r 
-	{4, 495}, 		// s 
-	{2, 506}, 		// t 
-	{5, 517}, 		// u 
-	{5, 528}, 		// v 
-	{7, 539}, 		// w 
-	{4, 550}, 		// x 
-	{5, 561}, 		// y 
-	{4, 572}, 		// z 
-};
+//const FONT_CHAR_INFO microsoftSansSerif_8ptDescriptors[] = 
+//{
+//	{7, 0}, 		// A 
+//	{5, 11}, 		// B 
+//	{6, 22}, 		// C 
+//	{6, 33}, 		// D 
+//	{5, 44}, 		// E 
+//	{5, 55}, 		// F 
+//	{6, 66}, 		// G 
+//	{6, 77}, 		// H 
+//	{1, 88}, 		// I 
+//	{4, 99}, 		// J 
+//	{6, 110}, 		// K 
+//	{5, 121}, 		// L 
+//	{7, 132}, 		// M 
+//	{6, 143}, 		// N 
+//	{6, 154}, 		// O 
+//	{6, 165}, 		// P 
+//	{6, 176}, 		// Q 
+//	{6, 187}, 		// R 
+//	{5, 198}, 		// S 
+//	{5, 209}, 		// T 
+//	{6, 220}, 		// U 
+//	{7, 231}, 		// V 
+//	{11, 242}, 		// W 
+//	{7, 264}, 		// X 
+//	{7, 275}, 		// Y 
+//	{7, 286}, 		// Z 
+//	{0, 0}, 		// [ 
+//	{0, 0}, 		// \ 
+//	{0, 0}, 		// ] 
+//	{0, 0}, 		// ^ 
+//	{0, 0}, 		// _ 
+//	{0, 0}, 		// ` 
+//	{5, 297}, 		// a 
+//	{5, 308}, 		// b 
+//	{5, 319}, 		// c 
+//	{5, 330}, 		// d 
+//	{5, 341}, 		// e 
+//	{2, 352}, 		// f 
+//	{5, 363}, 		// g 
+//	{5, 374}, 		// h 
+//	{1, 385}, 		// i 
+//	{1, 396}, 		// j 
+//	{5, 407}, 		// k 
+//	{1, 418}, 		// l 
+//	{7, 429}, 		// m 
+//	{5, 440}, 		// n 
+//	{5, 451}, 		// o 
+//	{5, 462}, 		// p 
+//	{5, 473}, 		// q 
+//	{2, 484}, 		// r 
+//	{4, 495}, 		// s 
+//	{2, 506}, 		// t 
+//	{5, 517}, 		// u 
+//	{5, 528}, 		// v 
+//	{7, 539}, 		// w 
+//	{4, 550}, 		// x 
+//	{5, 561}, 		// y 
+//	{4, 572}, 		// z 
+//};
 
-// Font information for Microsoft Sans Serif 8pt
-const letters_info[] =
-{
-	2, //  Character height
-	'A', //  Start character
-	'z', //  End character
-	2, //  Width, in pixels, of space character
-	microsoftSansSerif_8ptDescriptors, //  Character descriptor array
-	letters, //  Character bitmap array
-};
+//// Font information for Microsoft Sans Serif 8pt
+//const letters_info[] =
+//{
+//	2, //  Character height
+//	'A', //  Start character
+//	'z', //  End character
+//	2, //  Width, in pixels, of space character
+//	microsoftSansSerif_8ptDescriptors, //  Character descriptor array
+//	letters, //  Character bitmap array
+//};
 
 

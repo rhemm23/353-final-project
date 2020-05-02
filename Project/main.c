@@ -54,16 +54,13 @@ int main(void) {
   int exit = 0;
   int paused = 0;
 	
+  init_serial_debug(true, true);
   initialize_board();
-	eeprom_init();
 	
   printf("Running...\n");
-	printf("Hit Spacebar to Pause\n");
-	
+  
 	// Display High Score on Power Up
-	
-	
-	
+
   while(!exit) {
     if(!paused) {
       char c = uart_rx_poll(UART0_BASE, false);
@@ -78,7 +75,5 @@ int main(void) {
         paused = 0;
       }
     }
-		
-		
   }
 }
