@@ -731,14 +731,10 @@ const uint8_t letters[] =
 	0x00, //     
 };
 
-typedef struct {
-  uint16_t width;
-  uint16_t offset;
-} FONT_CHAR_INFO;
 
 // Character descriptors for Microsoft Sans Serif 8pt
 // { [Char width in bits], [Offset into microsoftSansSerif_8ptCharBitmaps in bytes] }
-const FONT_CHAR_INFO microsoftSansSerif_8ptDescriptors[] = 
+const FONT_CHAR_INFO letters_indexs[] = 
 {
 	{7, 0}, 		// A 
 	{5, 11}, 		// B 
@@ -800,6 +796,7 @@ const FONT_CHAR_INFO microsoftSansSerif_8ptDescriptors[] =
 	{4, 572}, 		// z 
 };
 
+/*
 typedef struct {
   uint8_t char_height;
   char start_char;
@@ -819,3 +816,4 @@ const FONT_INFO letters_info[] =
 	microsoftSansSerif_8ptDescriptors, //  Character descriptor array
 	letters, //  Character bitmap array
 };
+*/

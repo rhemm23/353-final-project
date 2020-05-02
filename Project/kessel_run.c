@@ -23,3 +23,7 @@ uint16_t read_high_score(void) {
 	
 	return scoreHighByte << 8 | scoreLowByte;
 }
+
+void print_start_screen(void) {
+		lcd_draw_image(0x0020, letters_indexs[0].width, 0x0020, 0x000B, &letters[letters_indexs[0].offset], LCD_COLOR_WHITE, LCD_COLOR_BLACK);
+}
