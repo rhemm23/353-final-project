@@ -23,6 +23,34 @@
 #include "main.h"
 #include "project_interrupts.h"
 
-void initialize_interrupts() {
+static volatile uint16_t PS2_X_DATA;
+static volatile uint16_t PS2_Y_DATA;
 
+void initialize_interrupts() {
+  gp_timer_config_32(TIMER4_BASE, TIMER_TAMR_TAMR_PERIOD, 50000, false, true);
+}
+
+//*****************************************************************************
+// TIMER4 ISR is used to trigger the ADC
+//*****************************************************************************
+void TIMER4A_Handler(void)
+{
+  // Start sample sequencer
+  ADC0->PSSI = ADC_PSSI_SS2;
+	
+  // Clear the interrupt
+  TIMER4->ICR |= TIMER_ICR_TATOCINT; 
+}
+
+//*****************************************************************************
+// ADC0 SS2 ISR
+//*****************************************************************************
+void ADC0SS2_Handler(void)
+{
+	// Get raw values
+  PS2_X_DATA = ADC0->SSFIFO2 & 0xFFF;
+  PS2_Y_DATA = ADC0->SSFIFO2 & 0xFFF;
+	
+  // Clear the interrupt
+  ADC0->ISC |= ADC_ISC_IN2;
 }

@@ -24,6 +24,44 @@ static bool verify_base_addr(uint32_t base_addr)
    }
 }
 
+/****************************************************************************
+ * Return the GPIO IRQ Number
+ ****************************************************************************/
+IRQn_Type timer_get_irq_num(uint32_t base)
+{
+   switch(base)
+   {
+     case TIMER0_BASE:
+     {
+       return TIMER0A_IRQn;
+     }
+     case TIMER1_BASE:
+     {
+       return TIMER1A_IRQn;
+     }
+     case TIMER2_BASE:
+     {
+        return TIMER2A_IRQn;
+     }
+     case TIMER3_BASE:
+     {
+       return TIMER3A_IRQn;
+     }
+     case TIMER4_BASE:
+     {
+       return TIMER4A_IRQn;
+     }
+     case TIMER5_BASE:
+     {
+       return TIMER5A_IRQn;
+     }
+     default:
+     {
+       return 0;
+     }
+   }
+}
+
 //*****************************************************************************
 // Returns the RCGC and PR masks for a given TIMER base address
 //*****************************************************************************
@@ -123,7 +161,7 @@ bool gp_timer_wait(uint32_t base_addr, uint32_t ticks)
 //
 //The function returns true if the base_addr is a valid general purpose timer
 //*****************************************************************************
-bool gp_timer_config_32(uint32_t base_addr, uint32_t mode, bool count_up, bool enable_interrupts)
+bool gp_timer_config_32(uint32_t base_addr, uint32_t mode, uint32_t time_count, bool count_up, bool enable_interrupts)
 {
   uint32_t timer_rcgc_mask;
   uint32_t timer_pr_mask;
@@ -160,10 +198,19 @@ bool gp_timer_config_32(uint32_t base_addr, uint32_t mode, bool count_up, bool e
 		gp_timer->TAMR |= TIMER_TAMR_TACDIR;
 	}
 	
-	if(enable_interrupts) {
-		gp_timer->IMR = TIMER_IMR_TATOIM;
-	} else {
-		gp_timer->IMR &= TIMER_IMR_TATOIM;
-	}
-  return true;  
+  gp_timer->TAILR = time_count;
+  
+  if(enable_interrupts) {
+    gp_timer->ICR |= TIMER_ICR_TATOCINT;
+    gp_timer->IMR |= TIMER_IMR_TATOIM;
+    NVIC_SetPriority(timer_get_irq_num(base_addr), 1);
+    NVIC_EnableIRQ(timer_get_irq_num(base_addr));
+  } else {
+    gp_timer->IMR &= ~TIMER_IMR_TATOIM;
+  }
+    
+  // Turn the timer on
+  gp_timer->CTL |= TIMER_CTL_TAEN;
+  
+  return true;   
 }
