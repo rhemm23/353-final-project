@@ -58,6 +58,7 @@ void initialize_board(void) {
 //*****************************************************************************
 int main(void) {
   char c;
+	char* str = "Ryan";
   uint8_t touch_event;
   GAME_STATE_t state, return_state;
 	
@@ -67,7 +68,7 @@ int main(void) {
   printf("Running...\n");
   
 	// Display High Score on Power Up
-
+	draw_string(str, 0x0040);
   while(state != EXIT) {
     touch_event = ft6x06_read_td_status();
     switch(state) {
