@@ -57,4 +57,7 @@ extern volatile bool ALERT_ASTROIDS;
 extern volatile bool ALERT_GAME_END;
 extern volatile GAME_STATE_t GAME_STATE;
 
+extern volatile uint8_t CLEAR_ASTEROID_COUNT;
+extern volatile ASTEROID_t CLEAR_ASTEROID_QUEUE[];
+
 #endif

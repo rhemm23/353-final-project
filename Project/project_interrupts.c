@@ -52,9 +52,17 @@ PS2_DIR_t ps2_get_direction(void) {
 	return dir;
 }
 
+void remove_asteroid(uint8_t index) {
+  uint8_t i;
+  for(i = index; i < ASTEROID_COUNT - 1; i++) {
+    ASTEROIDS[i] = ASTEROIDS[i + 1];
+  }
+  ASTEROID_COUNT--;
+}
+
 ASTEROID_t generate_asteroid() {
   ASTEROID_t asteroid;
-  asteroid.entity.x = (rand() % (COLS - asteroidWidthPixels)) + (asteroidWidthPixels / 2);
+  asteroid.entity.x = (rand() % (COLS - asteroidWidthPixels)) + asteroidWidthPixels / 2;
   asteroid.entity.y = asteroidHeightPixels / 2;
   asteroid.entity.height = asteroidHeightPixels;
   asteroid.entity.width = asteroidWidthPixels;
@@ -76,16 +84,27 @@ void TIMER1A_Handler(void)
 //*****************************************************************************
 void TIMER2A_Handler(void)
 {
-  uint16_t i, min_y;
+  uint8_t remove_indices[MAX_ASTEROIDS];
+  uint16_t i, min_y, ri;
   min_y = UINT16_MAX;
+  ri = 0;
   
   // Update asteroids if running
   if(GAME_STATE == RUNNING) {
+    ALERT_ASTROIDS = true;
+    // Default remove indices to -1
+    for(i = 0; i < MAX_ASTEROIDS; i++) {
+      remove_indices[i] = -1;
+    }
+    
     // Loop through asteroids
     for(i = 0; i < ASTEROID_COUNT; i++) {
       ASTEROIDS[i].entity.y++;
-      if(check_collision(&ASTEROIDS[i].entity, &SHIP) || check_boundary_collision(&ASTEROIDS[i].entity, PS2_DIR_DOWN)) {
+      if(check_collision(&ASTEROIDS[i].entity, &SHIP)) {
         ALERT_GAME_END = true;
+      } else if(check_boundary_collision(&ASTEROIDS[i].entity, PS2_DIR_DOWN)) {
+        remove_indices[ri++] = i;
+        ASTEROIDS[i].entity.y--; // Reset to current position if going to be removed
       }
       
       // Update min
@@ -94,13 +113,16 @@ void TIMER2A_Handler(void)
       }
     }
 
+    // Remove asteroids touching the bottom
+    for(i = 0; i < ri; i++) {
+      CLEAR_ASTEROID_QUEUE[CLEAR_ASTEROID_COUNT++] = ASTEROIDS[remove_indices[i]];
+      remove_asteroid(remove_indices[i]);
+    }
+    
     // Create new asteroid
     if(ASTEROID_COUNT == 0 || (min_y > (asteroidHeightPixels * 1.5) && ((rand() % 5000) < min_y) && ASTEROID_COUNT < MAX_ASTEROIDS)) {
       ASTEROIDS[ASTEROID_COUNT++] = generate_asteroid();
     }
-
-    // Set flag
-    ALERT_ASTROIDS = true;
   }
   
 	// Clear the interrupt

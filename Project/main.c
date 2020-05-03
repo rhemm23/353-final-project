@@ -22,6 +22,9 @@
 
 #include "main.h"
 
+volatile ASTEROID_t CLEAR_ASTEROID_QUEUE[MAX_ASTEROIDS];
+volatile uint8_t CLEAR_ASTEROID_COUNT = 0;
+
 volatile bool ALERT_GAME_END = false;
 volatile bool ALERT_ASTROIDS = true;
 volatile GAME_STATE_t GAME_STATE;
@@ -93,6 +96,17 @@ int main(void) {
         // Redraw asteroids
         if(ALERT_ASTROIDS) {
           ALERT_ASTROIDS = false;
+          
+          // Clear asteroids
+          for(i = 0; i < CLEAR_ASTEROID_COUNT; i++) {
+            lcd_draw_image(CLEAR_ASTEROID_QUEUE[i].entity.x, asteroidWidthPixels, CLEAR_ASTEROID_QUEUE[i].entity.y, 
+                asteroidHeightPixels, asteroidBitmaps, LCD_COLOR_BLACK, LCD_COLOR_BLACK);
+          }
+          
+          // Reset clear astroid queue
+          CLEAR_ASTEROID_COUNT = 0;
+          
+          // Draw asteroids
           for(i = 0; i < ASTEROID_COUNT; i++) {
             lcd_draw_image(ASTEROIDS[i].entity.x, asteroidWidthPixels, ASTEROIDS[i].entity.y, 
                 asteroidHeightPixels, asteroidBitmaps, LCD_COLOR_WHITE, LCD_COLOR_BLACK);
