@@ -72,8 +72,23 @@ ASTEROID_t generate_asteroid() {
 
 void TIMER1A_Handler(void)
 {
+  int i;
+  uint8_t data;
+  
   // Flag for alive LED to blink
   BLINK_ALIVE_LED = true;
+  
+  if(GAME_STATE == RUNNING) {
+    // Update charge
+    if(CHARGE < 8) {
+      CHARGE++;
+      data = 0x00;
+      for(i = 0; i < CHARGE; i++) {
+        data |= (1 << i);
+      }
+      io_expander_write_reg(MCP23017_GPIOA_R, data);
+    }
+  }
   
   // Clear the interrupt
   TIMER1->ICR |= TIMER_ICR_TATOCINT;

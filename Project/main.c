@@ -24,6 +24,8 @@
 
 volatile ASTEROID_t CLEAR_ASTEROID_QUEUE[MAX_ASTEROIDS];
 volatile uint8_t CLEAR_ASTEROID_COUNT = 0;
+volatile uint8_t CHARGE = 0;
+volatile uint16_t SCORE = 0;
 
 volatile bool ALERT_GAME_END = false;
 volatile bool ALERT_ASTROIDS = true;
@@ -68,8 +70,7 @@ int main(void) {
   GAME_STATE = START;
 	
   printf("Running...\n");
-	
-	
+  
 	// Display High Score on Power Up
 	start_screen();
   while(GAME_STATE != EXIT) {
@@ -84,6 +85,8 @@ int main(void) {
       // Clear flag
       BLINK_ALIVE_LED = false;
     }
+    
+    // Check touch events
     touch_event = ft6x06_read_td_status();
     switch(GAME_STATE) {
       case RUNNING:
@@ -128,6 +131,11 @@ int main(void) {
           GAME_STATE = RUNNING;
 					lcd_clear_screen(LCD_COLOR_BLACK);
           init_game();
+          
+          // Set global variables
+          SCORE = 0;
+          CHARGE = 0;
+          CLEAR_ASTEROID_COUNT = 0;
         }
         break;
         

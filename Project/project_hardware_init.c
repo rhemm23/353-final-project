@@ -33,7 +33,11 @@ void initialize_hardware() {
   lcd_config_screen();
   init_serial_debug(true, true);
 	eeprom_init();
+ 
+  // Setup io expander
 	io_expander_init();
+  io_expander_write_reg(MCP23017_IODIRA_R, 0x00);
+  
   lcd_clear_screen(LCD_COLOR_BLACK);
   ps2_initialize();
 }
