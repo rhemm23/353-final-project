@@ -33,6 +33,7 @@ void initialize_hardware() {
   lcd_config_screen();
   init_serial_debug(true, true);
 	eeprom_init();
+	io_expander_init();
   lcd_clear_screen(LCD_COLOR_BLACK);
   ps2_initialize();
 }

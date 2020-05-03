@@ -68,7 +68,8 @@ int main(void) {
   GAME_STATE = START;
 	
   printf("Running...\n");
-  
+	
+	
 	// Display High Score on Power Up
 	start_screen();
   while(GAME_STATE != EXIT) {

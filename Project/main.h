@@ -41,6 +41,7 @@
 #include "kessel_run.h"
 #include "final_images.h"
 #include "game_loop.h"
+#include "io_expander.h"
 
 #define TITLE "Kessel Run"
 
