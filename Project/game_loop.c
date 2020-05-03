@@ -1,5 +1,6 @@
 #include "game_loop.h"
 
+int MAX_ASTEROIDS = 10;
 volatile ENTITY_t *SHIP;
 volatile ASTEROID_t *ASTEROIDS;
 volatile uint16_t ASTEROID_COUNT;
@@ -63,5 +64,5 @@ void init_game(void) {
   SHIP->width = shipWidthPixels;
   
   // Initialize empty asteroid array
-  ASTEROIDS = malloc(sizeof(ENTITY_t) * 10);
+  ASTEROIDS = malloc(sizeof(ENTITY_t) * MAX_ASTEROIDS);
 }

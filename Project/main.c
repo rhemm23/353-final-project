@@ -52,6 +52,7 @@ void initialize_board(void) {
 //*****************************************************************************
 //*****************************************************************************
 int main(void) {
+  uint8_t high_score;
   int i;
   char c;
 	char* str = "Ryan";
@@ -64,7 +65,7 @@ int main(void) {
   printf("Running...\n");
   
 	// Display High Score on Power Up
-	draw_string(str, 0x0040);
+	//draw_string(str, 0x0040);
   while(state != EXIT) {
     // Check for flag
     if(BLINK_ALIVE_LED) {
@@ -113,7 +114,7 @@ int main(void) {
         }
         
         // If screen is touched, start the game
-        if(touch_event > 0) {
+        if(touch_event > 0 && touch_event != 0xFF) {
           state = RUNNING;
           init_game();
         }

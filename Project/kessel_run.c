@@ -52,7 +52,7 @@ void start_screen() {
 	printf("%d\n", high_score);
 	sprintf(high_score_value,"%d",high_score);
 	
-	draw_string(TITLE, 0x0030, 0x0040, LCD_COLOR_CYAN);
+	draw_string("Test", 0x0030, 0x0040, LCD_COLOR_CYAN);
 	draw_string(high_score_string, 0x0030, 0x0080, LCD_COLOR_RED);
 	draw_string(high_score_value, 0x00058, 0x00A0, LCD_COLOR_RED);
 }

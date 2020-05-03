@@ -68,6 +68,7 @@ void TIMER2A_Handler(void)
 {
   int i;
   for(i = 0; i < ASTEROID_COUNT; i++) {
+    
   }
 			
 	// Clear the interrupt

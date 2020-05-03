@@ -30,6 +30,7 @@ typedef struct {
 extern volatile uint16_t ASTEROID_COUNT;
 extern volatile ASTEROID_t *ASTEROIDS;
 extern volatile ENTITY_t *SHIP;
+extern int MAX_ASTEROIDS;
 
 void init_game(void);
 bool check_boundary_collision(volatile ENTITY_t *obj, PS2_DIR_t dir);
