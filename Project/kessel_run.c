@@ -40,6 +40,7 @@ void draw_string(char* string, uint16_t x_start, uint16_t y_index, uint16_t colo
 void start_screen() {
 	char high_score_string[12] = "High Score:";
 	char high_score_value[10];
+	char touch_screen_msg[22] = "Touch Screen to Start";
 	uint16_t high_score;
 	
 	high_score = read_high_score();
@@ -47,5 +48,6 @@ void start_screen() {
 	
 	draw_string(TITLE, 0x0030, 0x0040, LCD_COLOR_CYAN);
 	draw_string(high_score_string, 0x0030, 0x0080, LCD_COLOR_RED);
-	draw_string(high_score_value, 0x00058, 0x00A0, LCD_COLOR_RED);
+	draw_string(high_score_value, 0x0058, 0x00A0, LCD_COLOR_RED);
+	draw_string(touch_screen_msg, 0x0004, 0x0100, LCD_COLOR_RED);
 }
