@@ -32,8 +32,8 @@ volatile bool BLINK_ALIVE_LED = true;
 void initialize_interrupts() {
   // Set timer to blink red LED every 1 sec
   gp_timer_config_32(TIMER1_BASE, TIMER_TAMR_TAMR_PERIOD, 50000000, false, true);
-  gp_timer_config_32(TIMER2_BASE, TIMER_TAMR_TAMR_PERIOD, 2000000, false, true);
-  gp_timer_config_32(TIMER3_BASE, TIMER_TAMR_TAMR_PERIOD, 1000000, false, true);
+  //gp_timer_config_32(TIMER2_BASE, TIMER_TAMR_TAMR_PERIOD, 2000000, false, true);
+  gp_timer_config_32(TIMER3_BASE, TIMER_TAMR_TAMR_PERIOD, 500000, false, true);
   gp_timer_config_32(TIMER4_BASE, TIMER_TAMR_TAMR_PERIOD, 500000, false, true);
 }
 
@@ -79,6 +79,24 @@ void TIMER2A_Handler(void)
 //*****************************************************************************
 void TIMER3A_Handler(void)
 {
+  PS2_DIR_t dir;
+  ALERT_SHIP = true;
+  dir = ps2_get_direction();
+  if(!check_boundary_collision(SHIP, dir)) {
+    switch(dir) {
+      case PS2_DIR_LEFT:
+        SHIP->x--;
+        break;
+      
+      case PS2_DIR_RIGHT:
+        SHIP->x++;
+        break;
+      
+      default:
+        break;
+    }
+  }
+
 	// Clear the interrupt
 	TIMER3->ICR |= TIMER_ICR_TATOCINT;  
 }

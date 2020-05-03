@@ -22,6 +22,8 @@
 
 #include "main.h"
 
+volatile bool ALERT_SHIP = true;
+
 //*****************************************************************************
 //*****************************************************************************
 void DisableInterrupts(void)
@@ -39,13 +41,6 @@ void EnableInterrupts(void)
     CPSIE  I
   }
 }
-
-typedef enum {
-  START,
-  RUNNING,
-  PAUSED,
-  EXIT
-} GAME_STATE_t;
 
 void initialize_board(void) {
   DisableInterrupts();
@@ -91,6 +86,13 @@ int main(void) {
           return_state = RUNNING;
           state = PAUSED;
         }
+        
+        // Redraw ship on flag
+        if(ALERT_SHIP) {
+          lcd_draw_image(SHIP->x, SHIP->width, SHIP->y, 
+              SHIP->height, shipBitmaps, LCD_COLOR_WHITE, LCD_COLOR_BLACK);
+          ALERT_SHIP = false;
+        }
         break;
       
       case PAUSED:
@@ -113,6 +115,7 @@ int main(void) {
         // If screen is touched, start the game
         if(touch_event > 0) {
           state = RUNNING;
+          init_game();
         }
         break;
         

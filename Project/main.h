@@ -40,4 +40,15 @@
 #include "project_hardware_init.h"
 #include "kessel_run.h"
 #include "final_images.h"
+#include "game_loop.h"
+
+typedef enum {
+  START,
+  RUNNING,
+  PAUSED,
+  EXIT
+} GAME_STATE_t;
+
+extern volatile bool ALERT_SHIP;
+
 #endif
