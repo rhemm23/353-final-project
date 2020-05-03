@@ -80,14 +80,16 @@ void TIMER1A_Handler(void)
   
   if(GAME_STATE == RUNNING) {
     // Update charge
-    if(CHARGE < 8) {
-      CHARGE++;
+    if(CHARGE < 9) {
       data = 0x00;
       for(i = 0; i < CHARGE; i++) {
         data |= (1 << i);
       }
       io_expander_write_reg(MCP23017_GPIOA_R, data);
-    }
+			CHARGE++;
+    } else {
+			LASER.draw = true;
+		}
   }
   
   // Clear the interrupt
@@ -176,6 +178,14 @@ void TIMER3A_Handler(void)
         default:
           break;
       }
+			if (LASER.draw) {
+				--LASER.y;
+				if (LASER.y <= 20) {
+					LASER.draw = false;
+					lcd_draw_image(LASER.x, LASER.width, LASER.y, LASER.height, laserBitmaps, LCD_COLOR_BLACK, LCD_COLOR_BLACK);
+					LASER.y = SHIP.y;
+				}
+			}
     }
   }
 

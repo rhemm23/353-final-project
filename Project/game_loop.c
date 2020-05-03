@@ -1,6 +1,7 @@
 #include "game_loop.h"
 
 volatile ENTITY_t SHIP;
+volatile ENTITY_t LASER;
 volatile uint16_t ASTEROID_COUNT;
 volatile ASTEROID_t ASTEROIDS[MAX_ASTEROIDS];
 
@@ -60,4 +61,8 @@ void init_game(void) {
   SHIP.y = ROWS - shipHeightPixels - 2;
   SHIP.height = shipHeightPixels;
   SHIP.width = shipWidthPixels;
+	SHIP.draw = true;
+	LASER.height = laserHeightPixels;
+	LASER.width = laserWidthBits;
+	LASER.draw = false;
 }

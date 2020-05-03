@@ -23,6 +23,7 @@ typedef struct {
   uint16_t y;
   uint16_t height;
   uint16_t width;
+	bool draw;
 } ENTITY_t;
 
 typedef struct {
@@ -33,6 +34,7 @@ typedef struct {
 extern volatile uint16_t ASTEROID_COUNT;
 extern volatile ASTEROID_t ASTEROIDS[];
 extern volatile ENTITY_t SHIP;
+extern volatile ENTITY_t LASER;
 
 void init_game(void);
 bool check_boundary_collision(volatile ENTITY_t *obj, PS2_DIR_t dir);

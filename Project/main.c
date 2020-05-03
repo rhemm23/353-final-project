@@ -73,6 +73,7 @@ int main(void) {
   
 	// Display High Score on Power Up
 	start_screen();
+
   while(GAME_STATE != EXIT) {
     // Check for flag
     if(BLINK_ALIVE_LED) {
@@ -93,8 +94,19 @@ int main(void) {
         // Redraw ship on flag
         if(ALERT_SHIP) {
           ALERT_SHIP = false;
-          lcd_draw_image(SHIP.x, SHIP.width, SHIP.y, 
-              SHIP.height, shipBitmaps, LCD_COLOR_WHITE, LCD_COLOR_BLACK);
+					if (SHIP.draw) {
+						lcd_draw_image(SHIP.x, SHIP.width, SHIP.y, 
+              SHIP.height, shipBitmaps, LCD_COLOR_BLUE, LCD_COLOR_BLACK);
+					}
+					if(LASER.draw) {
+						if (CHARGE > 8) {
+							LASER.x = SHIP.x;
+							LASER.y = SHIP.y - (SHIP.height/2);
+						}
+						lcd_draw_image(LASER.x, LASER.width, LASER.y, LASER.height, 
+							laserBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
+						CHARGE = 0;
+					}
         }
         
         // Redraw asteroids
@@ -113,7 +125,7 @@ int main(void) {
           // Draw asteroids
           for(i = 0; i < ASTEROID_COUNT; i++) {
             lcd_draw_image(ASTEROIDS[i].entity.x, asteroidWidthPixels, ASTEROIDS[i].entity.y, 
-                asteroidHeightPixels, asteroidBitmaps, LCD_COLOR_WHITE, LCD_COLOR_BLACK);
+                asteroidHeightPixels, asteroidBitmaps, LCD_COLOR_GRAY, LCD_COLOR_BLACK);
           }
         }
         

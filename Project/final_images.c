@@ -2,6 +2,38 @@
 #include "final_images.h"
 
 // 
+//  Image data for laser
+// 
+
+const uint8_t laserBitmaps[] =
+{
+	0x00, //        
+	0x10, //    #   
+	0x38, //   ###  
+	0x38, //   ###  
+	0x38, //   ###  
+	0x38, //   ###  
+	0x38, //   ###  
+	0x38, //   ###  
+	0x38, //   ###  
+	0x38, //   ###  
+	0x38, //   ###  
+	0x38, //   ###  
+	0x38, //   ###  
+	0x38, //   ###  
+	0x38, //   ###  
+	0x10, //    #   
+	0x00, //
+  0x00, //      	
+};
+
+// Bitmap sizes for laser
+const uint8_t laserWidthBits = 8;
+const uint8_t laserHeightPixels = 18;
+
+
+
+// 
 //  Image data for ship
 // 
 

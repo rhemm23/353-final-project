@@ -3,6 +3,11 @@
 
 #include <stdint.h>
 
+// Bitmap info for laser
+extern const uint8_t laserBitmaps[];
+extern const uint8_t laserWidthBits;
+extern const uint8_t laserHeightPixels;
+
 /* Bitmap info for asteroid */
 extern const uint8_t asteroidBitmaps[];
 extern const uint8_t asteroidWidthPages;
