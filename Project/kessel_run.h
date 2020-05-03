@@ -18,4 +18,5 @@ void draw_letter(uint16_t x_index, uint16_t y_index, uint8_t character, uint16_t
 
 void draw_string(char* string, uint16_t x_start, uint16_t y_index, uint16_t color);
 void start_screen();
+void game_over_screen();
 #endif

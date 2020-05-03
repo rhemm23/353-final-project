@@ -132,6 +132,7 @@ void TIMER2A_Handler(void)
 
     // Remove asteroids touching the bottom
     for(i = 0; i < ri; i++) {
+			++SCORE;
       CLEAR_ASTEROID_QUEUE[CLEAR_ASTEROID_COUNT++] = ASTEROIDS[remove_indices[i]];
       remove_asteroid(remove_indices[i]);
     }

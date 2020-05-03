@@ -99,7 +99,7 @@ int main(void) {
               SHIP.height, shipBitmaps, LCD_COLOR_BLUE, LCD_COLOR_BLACK);
 					}
 					if(LASER.draw) {
-						if (CHARGE > 8) {
+						if (CHARGE > 8 ) {
 							LASER.x = SHIP.x;
 							LASER.y = SHIP.y - (SHIP.height/2);
 						}
@@ -150,7 +150,11 @@ int main(void) {
           CLEAR_ASTEROID_COUNT = 0;
         }
         break;
-        
+			case GAME_OVER:
+				lcd_clear_screen(LCD_COLOR_BLACK);
+				write_high_score(SCORE);
+				game_over_screen();
+				while(1);
       default:
         break;
     }
@@ -166,6 +170,8 @@ int main(void) {
         return_state = GAME_STATE;
         GAME_STATE = PAUSED;
       }
-    }
+    } else if (c == 'r') {
+			write_high_score(0);
+		}
   }
 }
