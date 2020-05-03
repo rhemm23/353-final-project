@@ -62,6 +62,7 @@ typedef enum {
 extern volatile uint16_t SCORE;
 extern volatile uint8_t CHARGE;
 extern volatile bool ALERT_SHIP;
+extern volatile bool ALERT_SCORE;
 extern volatile bool ALERT_ASTROIDS;
 extern volatile bool ALERT_GAME_END;
 extern volatile GAME_STATE_t GAME_STATE;

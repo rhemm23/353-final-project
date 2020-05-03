@@ -27,6 +27,7 @@ volatile uint8_t CLEAR_ASTEROID_COUNT = 0;
 volatile uint8_t CHARGE = 0;
 volatile uint16_t SCORE = 0;
 
+volatile bool ALERT_SCORE = true;
 volatile bool ALERT_GAME_END = false;
 volatile bool ALERT_ASTROIDS = true;
 volatile GAME_STATE_t GAME_STATE;
@@ -155,6 +156,7 @@ int main(void) {
           SCORE = 0;
           CHARGE = 0;
           ALERT_SHIP = true;
+          ALERT_SCORE = true;
           ALERT_GAME_END = false;
           CLEAR_ASTEROID_COUNT = 0;
         }

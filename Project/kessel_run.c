@@ -64,4 +64,3 @@ void game_over_screen() {
 	draw_string(your_score_msg, 0x0030, 0x0080, LCD_COLOR_CYAN);
 	draw_string(score_value, 0x0058, 0x00A0, LCD_COLOR_CYAN);
 }
-
