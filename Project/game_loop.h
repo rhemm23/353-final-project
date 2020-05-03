@@ -15,12 +15,14 @@ typedef enum {
 } PS2_DIR_t;
 
 typedef struct {
-  int x_pos;
-  int y_pos;
-} ASTEROID_t;
+  int x;
+  int y;
+  int height;
+  int width;
+} ENTITY_t;
 
-extern volatile uint16_t SHIP_X_COORD;
-extern volatile uint16_t SHIP_Y_COORD;
-extern volatile ASTEROID_t *ASTEROIDS;
+extern volatile uint16_t ASTEROID_COUNT;
+extern volatile ENTITY_t *ASTEROIDS;
+extern volatile ENTITY_t *SHIP;
 
 #endif

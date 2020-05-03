@@ -21,6 +21,7 @@
 // EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "main.h"
+#include "game_loop.h"
 #include "project_interrupts.h"
 
 static volatile uint16_t PS2_X_DATA;
@@ -31,9 +32,24 @@ volatile bool BLINK_ALIVE_LED = true;
 void initialize_interrupts() {
   // Set timer to blink red LED every 1 sec
   gp_timer_config_32(TIMER1_BASE, TIMER_TAMR_TAMR_PERIOD, 50000000, false, true);
-  gp_timer_config_32(TIMER2_BASE, TIMER_TAMR_TAMR_PERIOD, 1000000, false, true);
-  gp_timer_config_32(TIMER3_BASE, TIMER_TAMR_TAMR_PERIOD, 500000, false, true);
+  gp_timer_config_32(TIMER2_BASE, TIMER_TAMR_TAMR_PERIOD, 2000000, false, true);
+  gp_timer_config_32(TIMER3_BASE, TIMER_TAMR_TAMR_PERIOD, 1000000, false, true);
   gp_timer_config_32(TIMER4_BASE, TIMER_TAMR_TAMR_PERIOD, 500000, false, true);
+}
+
+PS2_DIR_t ps2_get_direction(void) {
+	// Use ps2 x and y data
+	PS2_DIR_t dir = PS2_DIR_CENTER;
+	if(PS2_X_DATA > 2979) {
+		dir = PS2_DIR_LEFT;
+	} else if(PS2_X_DATA < 1055) {
+		dir = PS2_DIR_RIGHT;
+	} else if(PS2_Y_DATA > 2979) {
+		dir = PS2_DIR_UP;
+	} else if(PS2_Y_DATA < 1055) {
+		dir = PS2_DIR_DOWN;
+	}
+	return dir;
 }
 
 void TIMER1A_Handler(void)
@@ -45,9 +61,14 @@ void TIMER1A_Handler(void)
   TIMER1->ICR |= TIMER_ICR_TATOCINT;
 }
 
+//*****************************************************************************
+// TIMER3 ISR is used to determine when to move the asteroids
+//*****************************************************************************
 void TIMER2A_Handler(void)
 {
-
+  int i;
+  for(i = 0; i < ASTEROID_COUNT; i++) {
+  }
 			
 	// Clear the interrupt
 	TIMER2->ICR |= TIMER_ICR_TATOCINT;
@@ -58,8 +79,6 @@ void TIMER2A_Handler(void)
 //*****************************************************************************
 void TIMER3A_Handler(void)
 {
-
-	
 	// Clear the interrupt
 	TIMER3->ICR |= TIMER_ICR_TATOCINT;  
 }
