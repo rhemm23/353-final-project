@@ -27,10 +27,10 @@ volatile uint8_t CLEAR_ASTEROID_COUNT = 0;
 volatile uint8_t CHARGE = 0;
 volatile uint16_t SCORE = 0;
 
-volatile bool ALERT_SCORE = true;
 volatile bool ALERT_GAME_END = false;
 volatile bool ALERT_ASTROIDS = true;
 volatile GAME_STATE_t GAME_STATE;
+volatile bool ALERT_FIRE = false;
 volatile bool ALERT_SHIP = true;
 
 //*****************************************************************************
@@ -99,15 +99,24 @@ int main(void) {
 						lcd_draw_image(SHIP.x, SHIP.width, SHIP.y, 
               SHIP.height, shipBitmaps, LCD_COLOR_BLUE, LCD_COLOR_BLACK);
 					}
-					if(LASER.draw) {
-						if (CHARGE > 8 ) {
-							LASER.x = SHIP.x;
-							LASER.y = SHIP.y - (SHIP.height/2);
-						}
-						lcd_draw_image(LASER.x, LASER.width, LASER.y, LASER.height, 
+        }
+        
+        if(LASER.draw) {
+          lcd_draw_image(LASER.x, LASER.width, LASER.y, LASER.height, 
 							laserBitmaps, LCD_COLOR_RED, LCD_COLOR_BLACK);
-						CHARGE = 0;
-					}
+        } else if(ALERT_FIRE) {
+          ALERT_FIRE = false;
+          if(CHARGE == 8) {
+            // Debounce
+            i = 10000;
+            while(i-- > 0);
+            if(io_expander_read_reg(MCP23017_GPIOB_R) | 0x0F) {
+              CHARGE = 0;
+              LASER.x = SHIP.x;
+							LASER.y = SHIP.y - (SHIP.height / 2);
+              LASER.draw = true;
+            }
+          }
         }
         
         // Redraw asteroids
@@ -156,7 +165,7 @@ int main(void) {
           SCORE = 0;
           CHARGE = 0;
           ALERT_SHIP = true;
-          ALERT_SCORE = true;
+          ALERT_FIRE = false;
           ALERT_GAME_END = false;
           CLEAR_ASTEROID_COUNT = 0;
         }

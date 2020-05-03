@@ -26,12 +26,18 @@ void initialize_hardware() {
   // Setup alive LED
   gpio_enable_port(GPIOF_BASE);
   gpio_config_digital_enable(GPIOF_BASE, RED_M);
-  //gpio_config_digital_enable(GPIOF_BASE, SW2_M);
   gpio_config_enable_output(GPIOF_BASE, RED_M);
-  //gpio_config_enable_input(GPIOF_BASE, SW2_M);
-  //GPIOF->IM |= SW2_M;
-  //NVIC_EnableIRQ(GPIOF_IRQn);
-  //NVIC_SetPriority(GPIOF_IRQn, 4);
+  
+  // Setup IO expander interrupt pin
+  gpio_config_digital_enable(GPIOF_BASE, SW2_M);
+  gpio_config_enable_input(GPIOF_BASE, SW2_M);
+  gpio_config_enable_pullup(GPIOF_BASE, SW2_M);
+  gpio_config_open_drain(GPIOF_BASE, SW2_M);
+  GPIOF->IM |= SW2_M;
+  
+  // Enable Interrupt
+  NVIC_EnableIRQ(GPIOF_IRQn);
+  NVIC_SetPriority(GPIOF_IRQn, 0);
   
   
   ft6x06_init();

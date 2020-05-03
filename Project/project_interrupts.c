@@ -80,16 +80,14 @@ void TIMER1A_Handler(void)
   
   if(GAME_STATE == RUNNING) {
     // Update charge
-    if(CHARGE < 9) {
+    if(CHARGE < 8) {
+      CHARGE += 2;
       data = 0x00;
       for(i = 0; i < CHARGE; i++) {
         data |= (1 << i);
       }
       io_expander_write_reg(MCP23017_GPIOA_R, data);
-			CHARGE++;
-    } else {
-			LASER.draw = true;
-		}
+    }
   }
   
   // Clear the interrupt
@@ -237,13 +235,18 @@ void ADC0SS2_Handler(void)
 }
 
 //*****************************************************************************
-// I2C1 ISR
+// IO Expander ISR
 //*****************************************************************************
 void GPIOF_Handler(void) {
   uint8_t cap;
   cap = io_expander_read_reg(MCP23017_INTCAPB_R);
-  if(cap) {
-    
+  
+  // Check for any PB high
+  if(cap | 0x0F) {
+    ALERT_FIRE = true;
   }
+  
+  // Clear interrupt
+  GPIOF->ICR |= SW2_M;
 }
 
