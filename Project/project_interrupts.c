@@ -207,3 +207,15 @@ void ADC0SS2_Handler(void)
   // Clear the interrupt
   ADC0->ISC |= ADC_ISC_IN2;
 }
+
+//*****************************************************************************
+// I2C1 ISR
+//*****************************************************************************
+void GPIOF_Handler(void) {
+  uint8_t cap;
+  cap = io_expander_read_reg(MCP23017_INTCAPB_R);
+  if(cap) {
+    
+  }
+}
+

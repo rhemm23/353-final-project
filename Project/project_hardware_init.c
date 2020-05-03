@@ -26,7 +26,13 @@ void initialize_hardware() {
   // Setup alive LED
   gpio_enable_port(GPIOF_BASE);
   gpio_config_digital_enable(GPIOF_BASE, RED_M);
+  gpio_config_digital_enable(GPIOF_BASE, SW2_M);
   gpio_config_enable_output(GPIOF_BASE, RED_M);
+  gpio_config_enable_input(GPIOF_BASE, SW2_M);
+  GPIOF->IM |= SW2_M;
+  NVIC_EnableIRQ(GPIOF_IRQn);
+  NVIC_SetPriority(GPIOF_IRQn, 4);
+  
   
   ft6x06_init();
   lcd_config_gpio();
@@ -36,7 +42,10 @@ void initialize_hardware() {
  
   // Setup io expander
 	io_expander_init();
+  io_expander_write_reg(MCP23017_IODIRB_R, 0xFF);
   io_expander_write_reg(MCP23017_IODIRA_R, 0x00);
+  io_expander_write_reg(MCP23017_GPPUB_R, 0x0F);
+  io_expander_write_reg(MCP23017_GPINTENB_R, 0x0F);
   
   lcd_clear_screen(LCD_COLOR_BLACK);
   ps2_initialize();

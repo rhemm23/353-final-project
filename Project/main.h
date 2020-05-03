@@ -53,6 +53,12 @@ typedef enum {
   EXIT
 } GAME_STATE_t;
 
+typedef enum {
+  DEBOUNCE_ONE,
+  DEBOUNCE_1ST_ZERO,
+  DEBOUNCE_PRESSED
+} DEBOUNCE_STATES;
+
 extern volatile uint16_t SCORE;
 extern volatile uint8_t CHARGE;
 extern volatile bool ALERT_SHIP;

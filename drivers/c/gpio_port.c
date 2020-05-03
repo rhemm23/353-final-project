@@ -369,11 +369,5 @@ bool gpio_config_open_drain(uint32_t gpioBase, uint8_t pins)
 //*****************************************************************************
 bool  gpio_config_falling_edge_irq(uint32_t gpioBase, uint8_t pins)
 {
-  GPIOA_Type  *gpioPort;
-
-  // ADD CODE
-  // Verify that the base address is a valid GPIO base address
-  // using the verify_base_addr function provided above
-    
-  return true;
+  
 }
