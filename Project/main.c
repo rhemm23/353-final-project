@@ -136,7 +136,9 @@ int main(void) {
           
           // Setup game over screen
           lcd_clear_screen(LCD_COLOR_BLACK);
-          write_high_score(SCORE);
+          if(read_high_score() < SCORE) {
+            write_high_score(SCORE);
+          }
           game_over_screen();
         }
         
@@ -158,15 +160,6 @@ int main(void) {
         }
         break;
 			case GAME_OVER:
-        if(touch_event > 0 && touch_event != 0xFF) {
-          GAME_STATE = START;
-          lcd_clear_screen(LCD_COLOR_BLACK);
-          start_screen();
-          
-          // Wait for a little
-          i = 1000000;
-          while(i-- > 0) { }
-        }
 				break;
       
       default:

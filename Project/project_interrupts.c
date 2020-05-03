@@ -152,6 +152,7 @@ void TIMER2A_Handler(void)
 //*****************************************************************************
 void TIMER3A_Handler(void)
 {
+  int i, c;
   PS2_DIR_t dir;
   
   // Update spaceship if running
@@ -181,7 +182,23 @@ void TIMER3A_Handler(void)
       }
 			if (LASER.draw) {
 				--LASER.y;
-				if (LASER.y <= 20) {
+        c = -1;
+        for(i = 0; i < ASTEROID_COUNT; i++) {
+          if(check_collision(&ASTEROIDS[i].entity, &LASER)) {
+            c = i;
+            break;
+          }
+        }
+        
+        // Remove asteroid if collision
+        if(c > -1) {
+          CLEAR_ASTEROID_QUEUE[CLEAR_ASTEROID_COUNT++] = ASTEROIDS[c];
+          remove_asteroid(c);
+          SCORE += 5;
+        }
+        
+        // Stop drawing laser
+				if(c > -1 || LASER.y <= 20) {
 					LASER.draw = false;
 					lcd_draw_image(LASER.x, LASER.width, LASER.y, LASER.height, laserBitmaps, LCD_COLOR_BLACK, LCD_COLOR_BLACK);
 					LASER.y = SHIP.y;
