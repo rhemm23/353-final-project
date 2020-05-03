@@ -55,7 +55,6 @@ int main(void) {
   uint8_t high_score;
   int i;
   char c;
-	char* str = "Ryan";
   uint8_t touch_event;
   GAME_STATE_t state, return_state;
 	
@@ -116,6 +115,7 @@ int main(void) {
         // If screen is touched, start the game
         if(touch_event > 0 && touch_event != 0xFF) {
           state = RUNNING;
+					lcd_clear_screen(LCD_COLOR_BLACK);
           init_game();
         }
         break;
