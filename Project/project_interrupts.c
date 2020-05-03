@@ -32,7 +32,7 @@ volatile bool BLINK_ALIVE_LED = true;
 void initialize_interrupts() {
   // Set timer to blink red LED every 1 sec
   gp_timer_config_32(TIMER1_BASE, TIMER_TAMR_TAMR_PERIOD, 50000000, false, true);
-  //gp_timer_config_32(TIMER2_BASE, TIMER_TAMR_TAMR_PERIOD, 2000000, false, true);
+  gp_timer_config_32(TIMER2_BASE, TIMER_TAMR_TAMR_PERIOD, 2000000, false, true);
   gp_timer_config_32(TIMER3_BASE, TIMER_TAMR_TAMR_PERIOD, 500000, false, true);
   gp_timer_config_32(TIMER4_BASE, TIMER_TAMR_TAMR_PERIOD, 500000, false, true);
 }
@@ -52,6 +52,16 @@ PS2_DIR_t ps2_get_direction(void) {
 	return dir;
 }
 
+ASTEROID_t generate_asteroid() {
+  ASTEROID_t asteroid;
+  asteroid.entity.x = (rand() % (COLS - asteroidWidthPixels)) + (asteroidWidthPixels / 2);
+  asteroid.entity.y = asteroidHeightPixels / 2;
+  asteroid.entity.height = asteroidHeightPixels;
+  asteroid.entity.width = asteroidWidthPixels;
+  asteroid.health = (rand() % 3) + 1;
+  return asteroid;
+}
+
 void TIMER1A_Handler(void)
 {
   // Flag for alive LED to blink
@@ -62,15 +72,34 @@ void TIMER1A_Handler(void)
 }
 
 //*****************************************************************************
-// TIMER3 ISR is used to determine when to move the asteroids
+// TIMER2 ISR is used to determine when to move the asteroids
 //*****************************************************************************
 void TIMER2A_Handler(void)
 {
-  int i;
+  uint16_t i, min_y;
+  min_y = UINT16_MAX;
+  
+  // Loop through asteroids
   for(i = 0; i < ASTEROID_COUNT; i++) {
+    ASTEROIDS[i].entity.y++;
+    if(check_collision(&ASTEROIDS[i].entity, &SHIP) || check_boundary_collision(&ASTEROIDS[i].entity, PS2_DIR_DOWN)) {
+      
+    }
     
+    // Update min
+    if(ASTEROIDS[i].entity.y < min_y) {
+      min_y = ASTEROIDS[i].entity.y;
+    }
   }
-			
+  
+  // Create new asteroid
+  if(ASTEROID_COUNT == 0 || (min_y > (asteroidHeightPixels * 1.5) && ((rand() % 5000) < min_y) && ASTEROID_COUNT < MAX_ASTEROIDS)) {
+    ASTEROIDS[ASTEROID_COUNT++] = generate_asteroid();
+  }
+  
+  // Set flag
+  ALERT_ASTROIDS = true;
+  
 	// Clear the interrupt
 	TIMER2->ICR |= TIMER_ICR_TATOCINT;
 }
@@ -83,14 +112,14 @@ void TIMER3A_Handler(void)
   PS2_DIR_t dir;
   ALERT_SHIP = true;
   dir = ps2_get_direction();
-  if(!check_boundary_collision(SHIP, dir)) {
+  if(!check_boundary_collision(&SHIP, dir)) {
     switch(dir) {
       case PS2_DIR_LEFT:
-        SHIP->x--;
+        SHIP.x--;
         break;
       
       case PS2_DIR_RIGHT:
-        SHIP->x++;
+        SHIP.x++;
         break;
       
       default:

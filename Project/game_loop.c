@@ -1,9 +1,8 @@
 #include "game_loop.h"
 
-int MAX_ASTEROIDS = 10;
-volatile ENTITY_t *SHIP;
-volatile ASTEROID_t *ASTEROIDS;
+volatile ENTITY_t SHIP;
 volatile uint16_t ASTEROID_COUNT;
+volatile ASTEROID_t ASTEROIDS[MAX_ASTEROIDS];
 
 /**
  * Checks if two an entity is colliding with the screen boundary
@@ -57,12 +56,8 @@ bool check_collision(volatile ENTITY_t *obj1, volatile ENTITY_t *obj2) {
  */
 void init_game(void) {
   // Setup spaceship
-  SHIP = malloc(sizeof(ENTITY_t));
-  SHIP->x = COLS / 2;
-  SHIP->y = ROWS - shipHeightPixels - 2;
-  SHIP->height = shipHeightPixels;
-  SHIP->width = shipWidthPixels;
-  
-  // Initialize empty asteroid array
-  ASTEROIDS = malloc(sizeof(ENTITY_t) * MAX_ASTEROIDS);
+  SHIP.x = COLS / 2;
+  SHIP.y = ROWS - shipHeightPixels - 2;
+  SHIP.height = shipHeightPixels;
+  SHIP.width = shipWidthPixels;
 }

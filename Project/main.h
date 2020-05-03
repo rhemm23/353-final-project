@@ -52,5 +52,6 @@ typedef enum {
 } GAME_STATE_t;
 
 extern volatile bool ALERT_SHIP;
+extern volatile bool ALERT_ASTROIDS;
 
 #endif

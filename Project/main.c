@@ -22,6 +22,7 @@
 
 #include "main.h"
 
+volatile bool ALERT_ASTROIDS = true;
 volatile bool ALERT_SHIP = true;
 
 //*****************************************************************************
@@ -89,14 +90,23 @@ int main(void) {
         
         // Redraw ship on flag
         if(ALERT_SHIP) {
-          lcd_draw_image(SHIP->x, SHIP->width, SHIP->y, 
-              SHIP->height, shipBitmaps, LCD_COLOR_WHITE, LCD_COLOR_BLACK);
           ALERT_SHIP = false;
+          lcd_draw_image(SHIP.x, SHIP.width, SHIP.y, 
+              SHIP.height, shipBitmaps, LCD_COLOR_WHITE, LCD_COLOR_BLACK);
+        }
+        
+        // Redraw asteroids
+        if(ALERT_ASTROIDS) {
+          ALERT_ASTROIDS = false;
+          for(i = 0; i < ASTEROID_COUNT; i++) {
+            lcd_draw_image(ASTEROIDS[i].entity.x, asteroidWidthPixels, ASTEROIDS[i].entity.y, 
+                asteroidHeightPixels, asteroidBitmaps, LCD_COLOR_WHITE, LCD_COLOR_BLACK);
+          }
         }
         break;
       
       case PAUSED:
-        c = uart_rx_poll(UART0_BASE, true);
+        c = uart_rx_poll(UART0_BASE, false);
         if(c == ' ') {
           printf("Running...\n");
           state = return_state;

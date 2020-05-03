@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+#define MAX_ASTEROIDS 10
+
 typedef enum {
   PS2_DIR_UP,
   PS2_DIR_DOWN,
@@ -16,21 +18,20 @@ typedef enum {
 } PS2_DIR_t;
 
 typedef struct {
-  int x;
-  int y;
-  int height;
-  int width;
+  uint16_t x;
+  uint16_t y;
+  uint16_t height;
+  uint16_t width;
 } ENTITY_t;
 
 typedef struct {
   ENTITY_t entity;
-  int health;
+  uint16_t health;
 } ASTEROID_t;
 
 extern volatile uint16_t ASTEROID_COUNT;
-extern volatile ASTEROID_t *ASTEROIDS;
-extern volatile ENTITY_t *SHIP;
-extern int MAX_ASTEROIDS;
+extern volatile ASTEROID_t ASTEROIDS[];
+extern volatile ENTITY_t SHIP;
 
 void init_game(void);
 bool check_boundary_collision(volatile ENTITY_t *obj, PS2_DIR_t dir);
