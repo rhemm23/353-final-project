@@ -42,6 +42,8 @@
 #include "final_images.h"
 #include "game_loop.h"
 
+#define TITLE "Kessel Run"
+
 typedef enum {
   START,
   RUNNING,

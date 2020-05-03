@@ -10,8 +10,6 @@ bool status_eeprom = true;
 void write_high_score(uint16_t score) {
   eeprom_byte_write(I2C1_BASE,256, (score & 0xFF));
   eeprom_byte_write(I2C1_BASE,258, ((score >> 8) & 0xFF));
-	printf("%d\n", (score & 0xFF));
-	printf("%d\n", ((score >> 8) & 0xFF));
 }
 
 //*****************************************************************************
@@ -22,9 +20,7 @@ uint16_t read_high_score() {
   uint8_t scoreLowByte;
 	eeprom_byte_read(I2C1_BASE,256, &scoreLowByte);
 	eeprom_byte_read(I2C1_BASE,258, &scoreHighByte);
-	printf("%d\n", scoreLowByte);
-	printf("%d\n", scoreHighByte);
-	return scoreLowByte;
+	return (scoreHighByte << 8) + scoreLowByte;
 }
 
 void draw_letter(uint16_t x_index, uint16_t y_index, uint8_t character, uint16_t color) {
@@ -49,7 +45,7 @@ void start_screen() {
 	high_score = read_high_score();
 	sprintf(high_score_value,"%d",high_score);
 	
-	draw_string("Test", 0x0030, 0x0040, LCD_COLOR_CYAN);
+	draw_string(TITLE, 0x0030, 0x0040, LCD_COLOR_CYAN);
 	draw_string(high_score_string, 0x0030, 0x0080, LCD_COLOR_RED);
 	draw_string(high_score_value, 0x00058, 0x00A0, LCD_COLOR_RED);
 }
