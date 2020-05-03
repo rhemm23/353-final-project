@@ -133,6 +133,11 @@ int main(void) {
         if(ALERT_GAME_END) {
           ALERT_GAME_END = false;
           GAME_STATE = GAME_OVER;
+          
+          // Setup game over screen
+          lcd_clear_screen(LCD_COLOR_BLACK);
+          write_high_score(SCORE);
+          game_over_screen();
         }
         
         break;
@@ -147,14 +152,23 @@ int main(void) {
           // Set global variables
           SCORE = 0;
           CHARGE = 0;
+          ALERT_SHIP = true;
+          ALERT_GAME_END = false;
           CLEAR_ASTEROID_COUNT = 0;
         }
         break;
 			case GAME_OVER:
-				lcd_clear_screen(LCD_COLOR_BLACK);
-				write_high_score(SCORE);
-				game_over_screen();
-				while(1);
+        if(touch_event > 0 && touch_event != 0xFF) {
+          GAME_STATE = START;
+          lcd_clear_screen(LCD_COLOR_BLACK);
+          start_screen();
+          
+          // Wait for a little
+          i = 1000000;
+          while(i-- > 0) { }
+        }
+				break;
+      
       default:
         break;
     }

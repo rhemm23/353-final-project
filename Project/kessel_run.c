@@ -57,10 +57,15 @@ void start_screen() {
 void game_over_screen() {
 	char your_score_msg[11] = "Your Score";
 	char high_score_value[10];
+  char touch_screen_msg[13] = "Touch Screen";
+	char to_reset_msg[9] = "to Reset";
+  
 	uint16_t high_score;
 	high_score = read_high_score();
 	sprintf(high_score_value,"%d",high_score);
 	draw_string(your_score_msg, 0x0030, 0x0080, LCD_COLOR_CYAN);
 	draw_string(high_score_value, 0x0058, 0x00A0, LCD_COLOR_CYAN);
+  draw_string(touch_screen_msg, 0x0020, 0x0100, LCD_COLOR_CYAN);
+	draw_string(to_reset_msg, 0x0038, 0x0118, LCD_COLOR_CYAN);
 }
 
