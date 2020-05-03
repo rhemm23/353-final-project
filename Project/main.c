@@ -65,7 +65,7 @@ int main(void) {
   printf("Running...\n");
   
 	// Display High Score on Power Up
-	//draw_string(str, 0x0040);
+	start_screen();
   while(state != EXIT) {
     // Check for flag
     if(BLINK_ALIVE_LED) {

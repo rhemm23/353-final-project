@@ -71,6 +71,10 @@ i2c_status_t eeprom_byte_write
   if(status != I2C_OK) {
 		return status;
 	}
+	
+	// If the EEPROM is still writing the last byte written, wait
+  eeprom_wait_for_write(i2c_base);
+	
 	status = i2cSendByte(i2c_base, (uint8_t)(address >> 8), I2C_MCS_START | I2C_MCS_RUN);
 	if(status != I2C_OK) {
 		return status;
@@ -112,6 +116,9 @@ i2c_status_t eeprom_byte_read
   
   // Before doing anything, make sure the I2C device is idle
   while (I2CMasterBusy(i2c_base)) { };
+	
+	// If the EEPROM is still writing the last byte written, wait
+  eeprom_wait_for_write(i2c_base);
 
   status = i2cSetSlaveAddr(i2c_base, MCP24LC32AT_DEV_ID, I2C_WRITE);
   if(status != I2C_OK) {

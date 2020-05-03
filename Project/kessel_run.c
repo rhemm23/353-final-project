@@ -44,12 +44,9 @@ void draw_string(char* string, uint16_t x_start, uint16_t y_index, uint16_t colo
 void start_screen() {
 	char high_score_string[12] = "High Score:";
 	char high_score_value[10];
-	uint8_t high_score;
-	eeprom_byte_write(I2C1_BASE,256, 0xFC);
-	//write_high_score(0x0328);
-	//high_score = read_high_score();
-	eeprom_byte_read(I2C1_BASE,256, &high_score);
-	printf("%d\n", high_score);
+	uint16_t high_score;
+	
+	high_score = read_high_score();
 	sprintf(high_score_value,"%d",high_score);
 	
 	draw_string("Test", 0x0030, 0x0040, LCD_COLOR_CYAN);
