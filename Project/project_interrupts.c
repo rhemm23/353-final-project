@@ -79,26 +79,29 @@ void TIMER2A_Handler(void)
   uint16_t i, min_y;
   min_y = UINT16_MAX;
   
-  // Loop through asteroids
-  for(i = 0; i < ASTEROID_COUNT; i++) {
-    ASTEROIDS[i].entity.y++;
-    if(check_collision(&ASTEROIDS[i].entity, &SHIP) || check_boundary_collision(&ASTEROIDS[i].entity, PS2_DIR_DOWN)) {
+  // Update asteroids if running
+  if(GAME_STATE == RUNNING) {
+    // Loop through asteroids
+    for(i = 0; i < ASTEROID_COUNT; i++) {
+      ASTEROIDS[i].entity.y++;
+      if(check_collision(&ASTEROIDS[i].entity, &SHIP) || check_boundary_collision(&ASTEROIDS[i].entity, PS2_DIR_DOWN)) {
+        ALERT_GAME_END = true;
+      }
       
+      // Update min
+      if(ASTEROIDS[i].entity.y < min_y) {
+        min_y = ASTEROIDS[i].entity.y;
+      }
     }
-    
-    // Update min
-    if(ASTEROIDS[i].entity.y < min_y) {
-      min_y = ASTEROIDS[i].entity.y;
+
+    // Create new asteroid
+    if(ASTEROID_COUNT == 0 || (min_y > (asteroidHeightPixels * 1.5) && ((rand() % 5000) < min_y) && ASTEROID_COUNT < MAX_ASTEROIDS)) {
+      ASTEROIDS[ASTEROID_COUNT++] = generate_asteroid();
     }
+
+    // Set flag
+    ALERT_ASTROIDS = true;
   }
-  
-  // Create new asteroid
-  if(ASTEROID_COUNT == 0 || (min_y > (asteroidHeightPixels * 1.5) && ((rand() % 5000) < min_y) && ASTEROID_COUNT < MAX_ASTEROIDS)) {
-    ASTEROIDS[ASTEROID_COUNT++] = generate_asteroid();
-  }
-  
-  // Set flag
-  ALERT_ASTROIDS = true;
   
 	// Clear the interrupt
 	TIMER2->ICR |= TIMER_ICR_TATOCINT;
@@ -110,20 +113,24 @@ void TIMER2A_Handler(void)
 void TIMER3A_Handler(void)
 {
   PS2_DIR_t dir;
-  ALERT_SHIP = true;
-  dir = ps2_get_direction();
-  if(!check_boundary_collision(&SHIP, dir)) {
-    switch(dir) {
-      case PS2_DIR_LEFT:
-        SHIP.x--;
-        break;
-      
-      case PS2_DIR_RIGHT:
-        SHIP.x++;
-        break;
-      
-      default:
-        break;
+  
+  // Update spaceship if running
+  if(GAME_STATE == RUNNING) {
+    ALERT_SHIP = true;
+    dir = ps2_get_direction();
+    if(!check_boundary_collision(&SHIP, dir)) {
+      switch(dir) {
+        case PS2_DIR_LEFT:
+          SHIP.x--;
+          break;
+        
+        case PS2_DIR_RIGHT:
+          SHIP.x++;
+          break;
+        
+        default:
+          break;
+      }
     }
   }
 

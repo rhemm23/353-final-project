@@ -48,10 +48,13 @@ typedef enum {
   START,
   RUNNING,
   PAUSED,
+  GAME_OVER,
   EXIT
 } GAME_STATE_t;
 
 extern volatile bool ALERT_SHIP;
 extern volatile bool ALERT_ASTROIDS;
+extern volatile bool ALERT_GAME_END;
+extern volatile GAME_STATE_t GAME_STATE;
 
 #endif

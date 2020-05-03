@@ -22,7 +22,9 @@
 
 #include "main.h"
 
+volatile bool ALERT_GAME_END = false;
 volatile bool ALERT_ASTROIDS = true;
+volatile GAME_STATE_t GAME_STATE;
 volatile bool ALERT_SHIP = true;
 
 //*****************************************************************************
@@ -57,16 +59,16 @@ int main(void) {
   int i;
   char c;
   uint8_t touch_event;
-  GAME_STATE_t state, return_state;
+  GAME_STATE_t return_state;
 	
   initialize_board();
-  state = START;
+  GAME_STATE = START;
 	
   printf("Running...\n");
   
 	// Display High Score on Power Up
 	start_screen();
-  while(state != EXIT) {
+  while(GAME_STATE != EXIT) {
     // Check for flag
     if(BLINK_ALIVE_LED) {
       // Blink red LED
@@ -79,15 +81,8 @@ int main(void) {
       BLINK_ALIVE_LED = false;
     }
     touch_event = ft6x06_read_td_status();
-    switch(state) {
+    switch(GAME_STATE) {
       case RUNNING:
-        c = uart_rx_poll(UART0_BASE, false);
-        if(c == ' ') {
-          printf("Paused. Hit space bar to resume...\n");
-          return_state = RUNNING;
-          state = PAUSED;
-        }
-        
         // Redraw ship on flag
         if(ALERT_SHIP) {
           ALERT_SHIP = false;
@@ -103,35 +98,39 @@ int main(void) {
                 asteroidHeightPixels, asteroidBitmaps, LCD_COLOR_WHITE, LCD_COLOR_BLACK);
           }
         }
-        break;
-      
-      case PAUSED:
-        c = uart_rx_poll(UART0_BASE, false);
-        if(c == ' ') {
-          printf("Running...\n");
-          state = return_state;
+        
+        // End game
+        if(ALERT_GAME_END) {
+          ALERT_GAME_END = false;
+          GAME_STATE = GAME_OVER;
         }
+        
         break;
       
       case START:
-        // Look for pause
-        c = uart_rx_poll(UART0_BASE, false);
-        if(c == ' ') {
-          printf("Paused. Hit space bar to resume...\n");
-          return_state = START;
-          state = PAUSED;
-        }
-        
         // If screen is touched, start the game
         if(touch_event > 0 && touch_event != 0xFF) {
-          state = RUNNING;
+          GAME_STATE = RUNNING;
 					lcd_clear_screen(LCD_COLOR_BLACK);
           init_game();
         }
         break;
         
-      case EXIT:
+      default:
         break;
+    }
+    
+    // Check for pause
+    c = uart_rx_poll(UART0_BASE, false);
+    if(c == ' ') {
+      if(GAME_STATE == PAUSED) {
+        printf("Running...\n");
+        GAME_STATE = return_state;
+      } else {
+        printf("Paused. Hit space bar to resume...\n");
+        return_state = GAME_STATE;
+        GAME_STATE = PAUSED;
+      }
     }
   }
 }
