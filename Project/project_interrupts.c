@@ -32,7 +32,7 @@ volatile bool BLINK_ALIVE_LED = true;
 void initialize_interrupts() {
   // Set timer to blink red LED every 1 sec
   gp_timer_config_32(TIMER1_BASE, TIMER_TAMR_TAMR_PERIOD, 50000000, false, true);
-  gp_timer_config_32(TIMER2_BASE, TIMER_TAMR_TAMR_PERIOD, 2000000, false, true);
+  gp_timer_config_32(TIMER2_BASE, TIMER_TAMR_TAMR_PERIOD, 1200000, false, true);
   gp_timer_config_32(TIMER3_BASE, TIMER_TAMR_TAMR_PERIOD, 500000, false, true);
   gp_timer_config_32(TIMER4_BASE, TIMER_TAMR_TAMR_PERIOD, 500000, false, true);
 }
@@ -120,7 +120,7 @@ void TIMER2A_Handler(void)
     }
     
     // Create new asteroid
-    if(ASTEROID_COUNT == 0 || (min_y > (asteroidHeightPixels * 1.5) && ((rand() % 5000) < min_y) && ASTEROID_COUNT < MAX_ASTEROIDS)) {
+    if(ASTEROID_COUNT == 0 || (min_y > (asteroidHeightPixels * 1.5) && ((rand() % ASTROID_DENSITY) < min_y) && ASTEROID_COUNT < MAX_ASTEROIDS)) {
       ASTEROIDS[ASTEROID_COUNT++] = generate_asteroid();
     }
   }
@@ -148,6 +148,14 @@ void TIMER3A_Handler(void)
         
         case PS2_DIR_RIGHT:
           SHIP.x++;
+          break;
+        
+        case PS2_DIR_UP:
+          SHIP.y--;
+          break;
+        
+        case PS2_DIR_DOWN:
+          SHIP.y++;
           break;
         
         default:

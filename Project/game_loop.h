@@ -7,7 +7,8 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#define MAX_ASTEROIDS 10
+#define ASTROID_DENSITY 1000
+#define MAX_ASTEROIDS 50
 
 typedef enum {
   PS2_DIR_UP,

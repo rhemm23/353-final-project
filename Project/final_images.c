@@ -7,6 +7,7 @@
 
 const uint8_t shipBitmaps[] =
 {
+  0x00, 0x00, 0x00, 0x00, //
 	0x00, 0x07, 0x80, 0x00, //              ####             
 	0x00, 0x07, 0x80, 0x00, //              ####             
 	0x00, 0x0F, 0xC0, 0x00, //             ######            
@@ -67,11 +68,12 @@ const uint8_t shipBitmaps[] =
 	0x3F, 0x80, 0x07, 0xF0, //   #######            ####### 
 	0x3F, 0x80, 0x07, 0xF0, //   #######            ####### 
 	0x00, 0x00, 0x00, 0x00, //                               
+  0x00, 0x00, 0x00, 0x00  //
 };
 
 // Bitmap sizes for ship
 const uint8_t shipWidthPages = 4;
-const uint8_t shipHeightPixels = 59;
+const uint8_t shipHeightPixels = 61;
 const uint8_t shipWidthPixels = 32;
 
 // 

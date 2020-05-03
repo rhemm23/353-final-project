@@ -23,6 +23,4 @@ typedef struct {
 } FONT_CHAR_INFO;
 extern const FONT_CHAR_INFO letters_indexs[];
 
-
-
 #endif
