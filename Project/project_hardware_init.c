@@ -22,6 +22,9 @@
 
 #include "main.h"
 
+//*****************************************************************************
+// Initializes all aspects of the hardware used for the game
+//*****************************************************************************
 void initialize_hardware() {
   // Setup alive LED
   gpio_enable_port(GPIOF_BASE);
@@ -39,11 +42,19 @@ void initialize_hardware() {
   NVIC_EnableIRQ(GPIOF_IRQn);
   NVIC_SetPriority(GPIOF_IRQn, 0);
   
-  
+  // Sets up the LCD touch screen
   ft6x06_init();
+  
+  // Sets up the GPIO pins for the LCD screen
   lcd_config_gpio();
+  
+  // Sets up the LCD screen to be used
   lcd_config_screen();
+  
+  // Starts serial debugging
   init_serial_debug(true, true);
+  
+  // Sets up GPIO pins for EEPROM
 	eeprom_init();
  
   // Setup io expander
@@ -53,6 +64,9 @@ void initialize_hardware() {
   io_expander_write_reg(MCP23017_GPPUB_R, 0x0F);
   io_expander_write_reg(MCP23017_GPINTENB_R, 0x0F);
   
+  // Reset screen to a black color
   lcd_clear_screen(LCD_COLOR_BLACK);
+  
+  // Sets up the PS2 joystick
   ps2_initialize();
 }
