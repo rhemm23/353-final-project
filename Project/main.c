@@ -51,6 +51,9 @@ void EnableInterrupts(void)
   }
 }
 
+/*
+ * Sets up the hardware for the board and the interrupts
+ */
 void initialize_board(void) {
   DisableInterrupts();
   initialize_hardware();
@@ -59,6 +62,7 @@ void initialize_board(void) {
 }
 
 //*****************************************************************************
+// Main entry point for the application, includes a state machine for the game
 //*****************************************************************************
 int main(void) {
   uint8_t high_score;
@@ -75,6 +79,7 @@ int main(void) {
 	// Display High Score on Power Up
 	start_screen();
 
+  // While state is not exit
   while(GAME_STATE != EXIT) {
     // Check for flag
     if(BLINK_ALIVE_LED) {
