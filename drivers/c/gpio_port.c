@@ -369,5 +369,12 @@ bool gpio_config_open_drain(uint32_t gpioBase, uint8_t pins)
 //*****************************************************************************
 bool  gpio_config_falling_edge_irq(uint32_t gpioBase, uint8_t pins)
 {
-  
+  GPIOA_Type *gpioPort;
+	if(!verify_base_addr(gpioBase)) {
+		return false;
+	} else {
+		gpioPort = (GPIOA_Type*)gpioBase;
+		gpioPort->IM |= pins;
+	}
+  return true;
 }
