@@ -171,6 +171,11 @@ int main(void) {
         }
         break;
 			case GAME_OVER:
+				touch_event = ft6x06_read_td_status();
+				if(touch_event) {
+					SCORE = 0;
+					GAME_STATE = START;
+				}
 				break;
       
       default:

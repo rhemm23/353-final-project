@@ -29,11 +29,11 @@ void initialize_hardware() {
   gpio_config_enable_output(GPIOF_BASE, RED_M);
   
   // Setup IO expander interrupt pin
-  gpio_config_digital_enable(GPIOF_BASE, SW2_M);
-  gpio_config_enable_input(GPIOF_BASE, SW2_M);
-  gpio_config_enable_pullup(GPIOF_BASE, SW2_M);
-  gpio_config_open_drain(GPIOF_BASE, SW2_M);
-  GPIOF->IM |= SW2_M;
+  gpio_config_digital_enable(IO_EXPANDER_IRQ_GPIO_BASE, IO_EXPANDER_IRQ_PIN_NUM);
+  gpio_config_enable_input(IO_EXPANDER_IRQ_GPIO_BASE, IO_EXPANDER_IRQ_PIN_NUM);
+  gpio_config_enable_pullup(IO_EXPANDER_IRQ_GPIO_BASE, IO_EXPANDER_IRQ_PIN_NUM);
+  gpio_config_open_drain(IO_EXPANDER_IRQ_GPIO_BASE, IO_EXPANDER_IRQ_PIN_NUM);
+  gpio_config_falling_edge_irq(IO_EXPANDER_IRQ_GPIO_BASE, IO_EXPANDER_IRQ_PIN_NUM);
   
   // Enable Interrupt
   NVIC_EnableIRQ(GPIOF_IRQn);
