@@ -26,6 +26,9 @@
 
 extern volatile bool BLINK_ALIVE_LED;
 
+//*****************************************************************************
+// Initializes all interrupts for the game
+//*****************************************************************************
 void initialize_interrupts(void);
 
 #endif

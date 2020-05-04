@@ -29,6 +29,9 @@ static volatile uint16_t PS2_Y_DATA;
 
 volatile bool BLINK_ALIVE_LED = true;
 
+//*****************************************************************************
+// Sets up all four timers used in the game
+//*****************************************************************************
 void initialize_interrupts() {
   // Set timer to blink red LED every 1 sec
   gp_timer_config_32(TIMER1_BASE, TIMER_TAMR_TAMR_PERIOD, 50000000, false, true);
@@ -37,6 +40,9 @@ void initialize_interrupts() {
   gp_timer_config_32(TIMER4_BASE, TIMER_TAMR_TAMR_PERIOD, 500000, false, true);
 }
 
+//*****************************************************************************
+// Uses the ADC data to find the current direction of the PS2 joystick
+//*****************************************************************************
 PS2_DIR_t ps2_get_direction(void) {
 	// Use ps2 x and y data
 	PS2_DIR_t dir = PS2_DIR_CENTER;
@@ -52,6 +58,9 @@ PS2_DIR_t ps2_get_direction(void) {
 	return dir;
 }
 
+//*****************************************************************************
+// Removes an asteroid from the array of asteroids
+//*****************************************************************************
 void remove_asteroid(uint8_t index) {
   uint8_t i;
   for(i = index; i < ASTEROID_COUNT - 1; i++) {
@@ -60,6 +69,9 @@ void remove_asteroid(uint8_t index) {
   ASTEROID_COUNT--;
 }
 
+//*****************************************************************************
+// Generates a new astroid at the top of the screen
+//*****************************************************************************
 ASTEROID_t generate_asteroid() {
   ASTEROID_t asteroid;
   asteroid.entity.x = (rand() % (COLS - asteroidWidthPixels)) + asteroidWidthPixels / 2;
@@ -70,6 +82,9 @@ ASTEROID_t generate_asteroid() {
   return asteroid;
 }
 
+//*****************************************************************************
+// TIMER1 ISR is used to blink the alive LED and increment charge
+//*****************************************************************************
 void TIMER1A_Handler(void)
 {
   int i;

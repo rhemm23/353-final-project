@@ -36,8 +36,20 @@ extern volatile ASTEROID_t ASTEROIDS[];
 extern volatile ENTITY_t SHIP;
 extern volatile ENTITY_t LASER;
 
+//*****************************************************************************
+// Resets the game to the starting state
+//*****************************************************************************
 void init_game(void);
+
+//*****************************************************************************
+// Checks if an entity will collide with the boundary if it is moved in the 
+// specified direction
+//*****************************************************************************
 bool check_boundary_collision(volatile ENTITY_t *obj, PS2_DIR_t dir);
+
+//*****************************************************************************
+// Checks if two entities are colliding
+//*****************************************************************************
 bool check_collision(volatile ENTITY_t *obj1, volatile ENTITY_t *obj2);
 
 #endif
