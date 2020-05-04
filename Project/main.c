@@ -170,7 +170,7 @@ int main(void) {
           CLEAR_ASTEROID_COUNT = 0;
         }
         break;
-			case GAME_OVER:
+			case GAME_OVER: // Enters infinite loop when game ends 
 				break;
       default:
         break;
@@ -187,7 +187,7 @@ int main(void) {
         return_state = GAME_STATE;
         GAME_STATE = PAUSED;
       }
-    } else if (c == 'r') {
+    } else if (c == 'r') {  // Resets the high score to 0 if r is pressed
 			write_high_score(0);
 		}
   }
